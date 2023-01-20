@@ -30,12 +30,21 @@ console.log('here env', process.env.NODE_ENV);
 if(process.env.NODE_ENV === 'production') {
     origin = process.env.CLIENT_ORIGIN;
 }
-app.use(
-    cors({
-        credentials: true,
-        origin
-    })
-);
+// app.use(
+//     cors({
+//         credentials: true,
+//         origin
+            
+//     })
+// );
+
+//app.use(cors()) 
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
@@ -45,6 +54,8 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 4001;
+
+
 
 dbConnect();
 app.listen(PORT, () => {
